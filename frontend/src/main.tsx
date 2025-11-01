@@ -1,8 +1,8 @@
-"""
-React frontend application entry point.
-
-This module sets up the React application with routing and state management.
-"""
+/**
+ * React frontend application entry point.
+ *
+ * This module sets up the React application with routing and state management.
+ */
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'

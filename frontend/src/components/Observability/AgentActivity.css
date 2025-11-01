@@ -1,0 +1,13 @@
+/**
+ * Agent activity styles.
+ */
+
+.agent-activity h3 {
+  margin-top: 0;
+}
+
+.activity-timeline {
+  padding: 1rem;
+  color: #666;
+}
+

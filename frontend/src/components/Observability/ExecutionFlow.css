@@ -1,0 +1,184 @@
+/**
+ * Component CSS files.
+ */
+
+.execution-flow,
+.agent-activity,
+.system-metrics {
+  /* Component styles */
+}
+
+.flow-container {
+  height: 400px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.flow-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #999;
+}
+
+.activity-timeline {
+  padding: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.log-viewer {
+  padding: 1.5rem;
+}
+
+.log-viewer h3 {
+  margin-top: 0;
+}
+
+.log-entries {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.log-entry {
+  display: grid;
+  grid-template-columns: 80px 180px 1fr auto;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.875rem;
+}
+
+.log-entry:hover {
+  background: #f8f9fa;
+}
+
+.log-level {
+  font-weight: 600;
+}
+
+.log-timestamp {
+  color: #999;
+  font-family: monospace;
+}
+
+.log-message {
+  color: #333;
+}
+
+.log-agent {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.log-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #999;
+}
+
+.log-filters {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.log-filters h3 {
+  margin-top: 0;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-group label {
+  font-weight: 500;
+  color: #555;
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.error-panel {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-panel h3 {
+  margin-top: 0;
+}
+
+.error-summary {
+  display: flex;
+  gap: 1rem;
+}
+
+.summary-item {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.summary-item.error {
+  background: #fee;
+  border: 1px solid #e74c3c;
+}
+
+.summary-item.warning {
+  background: #fff8e1;
+  border: 1px solid #f39c12;
+}
+
+.summary-count {
+  display: block;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.summary-item.error .summary-count {
+  color: #e74c3c;
+}
+
+.summary-item.warning .summary-count {
+  color: #f39c12;
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #666;
+}
+

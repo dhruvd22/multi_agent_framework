@@ -6,11 +6,15 @@ and startup/shutdown handlers.
 """
 
 import asyncio
+import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import asyncpg
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from neo4j import AsyncGraphDatabase
 from structlog import get_logger
 
@@ -149,11 +153,47 @@ app.include_router(memory.router, prefix="/api/memory", tags=["memory"])
 app.include_router(logs.router, prefix="/api/logs", tags=["logs"])
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
 
-
-@app.get("/")
-async def root():
-    """Root endpoint."""
-    return {"message": "Multi-Agent Framework API", "version": "0.1.0"}
+# Serve static files (frontend) if they exist
+static_dir = Path(__file__).parent.parent / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+    
+    @app.get("/")
+    async def root():
+        """Serve frontend index.html."""
+        index_path = static_dir / "index.html"
+        if index_path.exists():
+            return FileResponse(index_path)
+        return {"message": "Multi-Agent Framework API", "version": "0.1.0"}
+    
+    # Catch-all route for frontend routing (SPA)
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        """
+        Serve frontend routes.
+        
+        This catches all non-API routes and serves the frontend SPA.
+        """
+        # Don't serve API routes
+        if full_path.startswith("api/") or full_path.startswith("ws/"):
+            raise HTTPException(status_code=404, detail="Not found")
+        
+        # Check if it's a static file
+        file_path = static_dir / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(file_path)
+        
+        # Otherwise serve index.html for SPA routing
+        index_path = static_dir / "index.html"
+        if index_path.exists():
+            return FileResponse(index_path)
+        
+        raise HTTPException(status_code=404, detail="Not found")
+else:
+    @app.get("/")
+    async def root():
+        """Root endpoint."""
+        return {"message": "Multi-Agent Framework API", "version": "0.1.0"}
 
 
 @app.get("/health")

@@ -1,10 +1,25 @@
 # Koyeb deployment configuration
 
+# Koyeb will automatically detect and use the Dockerfile in the root directory
+# Make sure to set these environment variables in Koyeb dashboard:
+# - OPENAI_API_KEY (required)
+# - DATABASE_URL (required)
+# - NEO4J_URI (required)
+# - NEO4J_USER (required)
+# - NEO4J_PASSWORD (required)
+# - And other optional configuration variables
+
 [build]
-buildCommand = "cd backend && pip install -r requirements.txt"
-runCommand = "cd backend && uvicorn api.main:app --host 0.0.0.0 --port $PORT"
+# Using Dockerfile, so no build command needed
+# Koyeb will run: docker build -t <image> .
 
 [deploy]
+# Health check configuration
 healthcheckPath = "/health"
 healthcheckInterval = 30
+healthcheckTimeout = 10
+
+# Port configuration
+# Koyeb sets PORT environment variable automatically
+# The Dockerfile CMD handles this with: --port ${PORT:-8000}
 

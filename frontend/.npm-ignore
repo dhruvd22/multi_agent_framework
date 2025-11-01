@@ -1,0 +1,4 @@
+# Note: To generate package-lock.json for better reproducibility, run:
+# cd frontend && npm install
+# Then commit package-lock.json to your repository
+

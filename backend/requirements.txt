@@ -13,6 +13,7 @@ tiktoken==0.5.2
 asyncpg==0.29.0
 sqlalchemy[asyncio]==2.0.23
 alembic==1.12.1
+supabase==2.3.4
 
 # Graph Database (Neo4j)
 neo4j==5.14.1

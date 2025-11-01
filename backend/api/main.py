@@ -20,6 +20,7 @@ from structlog import get_logger
 
 from ..config import get_settings
 from ..core.logger import setup_logging
+from ..core.supabase import get_supabase_client, is_supabase_configured
 from ..memory import GraphStore, PostgresStore, initialize_memory_router
 from ..mcp.server import initialize_tools, start_mcp_server
 from .routes import agents, logs, memory, tasks
@@ -52,6 +53,13 @@ async def lifespan(app: FastAPI):
     setup_logging(settings.log_level)
 
     logger.info("Starting application", environment=settings.environment)
+
+    # Check if Supabase is configured
+    if is_supabase_configured():
+        supabase_client = get_supabase_client()
+        if supabase_client:
+            logger.info("Supabase client initialized")
+            app.state.supabase_client = supabase_client
 
     # Initialize PostgreSQL connection pool
     try:

@@ -6,14 +6,13 @@ This module provides endpoints for creating, retrieving, and managing tasks.
 
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
 from ...agents.agent_executor import AgentExecutor
 from ...agents.agent_registry import AgentRegistry
 from ...agents.schemas import TaskRequest
 from ...agents.schemas import AgentStatus, ExecutionPlan
-from ..main import app
 
 router = APIRouter()
 
@@ -36,10 +35,10 @@ class TaskResponse(BaseModel):
     results: dict | None = None
 
 
-def get_agent_executor() -> AgentExecutor:
+def get_agent_executor(request: Request) -> AgentExecutor:
     """Get agent executor from app state."""
-    registry: AgentRegistry = app.state.agent_registry
-    memory_router = app.state.memory_router
+    registry: AgentRegistry = request.app.state.agent_registry
+    memory_router = request.app.state.memory_router
     return AgentExecutor(registry, memory_router)
 
 

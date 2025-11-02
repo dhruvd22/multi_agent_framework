@@ -6,12 +6,11 @@ This module provides endpoints for querying agent status and capabilities.
 
 from typing import List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from ...agents.agent_registry import AgentRegistry
 from ...agents.schemas import AgentCapabilities, AgentState, AgentStatus
-from ..main import app
 
 router = APIRouter()
 
@@ -27,14 +26,14 @@ class AgentInfo(BaseModel):
 
 
 @router.get("/", response_model=List[AgentInfo])
-async def list_agents():
+async def list_agents(request: Request):
     """
     List all registered agents.
 
     Returns:
         List of agent information
     """
-    registry: AgentRegistry = app.state.agent_registry
+    registry: AgentRegistry = request.app.state.agent_registry
     agents = registry.get_all()
 
     # Get agent types
@@ -56,7 +55,7 @@ async def list_agents():
 
 
 @router.get("/{agent_id}", response_model=AgentInfo)
-async def get_agent(agent_id: str):
+async def get_agent(agent_id: str, request: Request):
     """
     Get agent information.
 
@@ -66,7 +65,7 @@ async def get_agent(agent_id: str):
     Returns:
         Agent information
     """
-    registry: AgentRegistry = app.state.agent_registry
+    registry: AgentRegistry = request.app.state.agent_registry
     agent = registry.get(agent_id)
 
     if not agent:
@@ -89,7 +88,7 @@ async def get_agent(agent_id: str):
 
 
 @router.get("/{agent_id}/state", response_model=AgentState)
-async def get_agent_state(agent_id: str):
+async def get_agent_state(agent_id: str, request: Request):
     """
     Get current agent state.
 
@@ -99,7 +98,7 @@ async def get_agent_state(agent_id: str):
     Returns:
         Agent state
     """
-    registry: AgentRegistry = app.state.agent_registry
+    registry: AgentRegistry = request.app.state.agent_registry
     agent = registry.get(agent_id)
 
     if not agent:

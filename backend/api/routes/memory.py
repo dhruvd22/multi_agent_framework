@@ -6,19 +6,18 @@ This module provides endpoints for searching and retrieving memory items.
 
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from pydantic import BaseModel
 
 from ...memory import MemoryRouter
 from ...memory.schemas import MemoryItem, MemoryQuery, MemorySearchResult, MemoryType
-from ..main import app
 
 router = APIRouter()
 
 
-def get_memory_router() -> MemoryRouter:
+def get_memory_router(request: Request) -> MemoryRouter:
     """Get memory router from app state."""
-    return app.state.memory_router
+    return request.app.state.memory_router
 
 
 @router.get("/search", response_model=MemorySearchResult)

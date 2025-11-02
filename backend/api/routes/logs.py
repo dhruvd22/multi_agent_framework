@@ -7,12 +7,11 @@ This module provides endpoints for retrieving logs and system messages.
 from datetime import datetime
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from pydantic import BaseModel
 
 from ...memory import MemoryRouter
 from ...memory.schemas import MemoryQuery, MemoryType
-from ..main import app
 
 router = APIRouter()
 
@@ -28,6 +27,11 @@ class LogEntry(BaseModel):
     metadata: dict = {}
 
 
+def get_memory_router(request: Request) -> MemoryRouter:
+    """Get memory router from app state."""
+    return request.app.state.memory_router
+
+
 @router.get("/", response_model=List[LogEntry])
 async def get_logs(
     level: Optional[str] = Query(None, description="Filter by log level"),
@@ -35,7 +39,7 @@ async def get_logs(
     task_id: Optional[str] = Query(None, description="Filter by task ID"),
     limit: int = Query(100, ge=1, le=1000),
     offset: int = Query(0, ge=0),
-    router: MemoryRouter = Depends(lambda: app.state.memory_router),
+    router: MemoryRouter = Depends(get_memory_router),
 ):
     """
     Get log entries.
@@ -85,7 +89,7 @@ async def get_logs(
 async def get_errors(
     task_id: Optional[str] = Query(None),
     limit: int = Query(50, ge=1, le=500),
-    router: MemoryRouter = Depends(lambda: app.state.memory_router),
+    router: MemoryRouter = Depends(get_memory_router),
 ):
     """
     Get error log entries.
@@ -128,7 +132,7 @@ async def get_errors(
 async def get_warnings(
     task_id: Optional[str] = Query(None),
     limit: int = Query(50, ge=1, le=500),
-    router: MemoryRouter = Depends(lambda: app.state.memory_router),
+    router: MemoryRouter = Depends(get_memory_router),
 ):
     """
     Get warning log entries.

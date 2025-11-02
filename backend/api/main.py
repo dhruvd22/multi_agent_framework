@@ -54,6 +54,11 @@ async def lifespan(app: FastAPI):
 
     logger.info("Starting application", environment=settings.environment)
 
+    if not settings.openai.is_configured():
+        logger.warning(
+            "OPENAI_API_KEY not configured. LLM-powered agents will not function until it is set.",
+        )
+
     # Check if Supabase is configured
     if is_supabase_configured():
         supabase_client = get_supabase_client()

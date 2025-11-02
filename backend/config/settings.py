@@ -43,11 +43,21 @@ class OpenAISettings(BaseSettings):
 
     model_config = SettingsConfigDict(env_prefix="OPENAI_")
 
-    api_key: str = Field(..., description="OpenAI API key")
+    api_key: Optional[str] = Field(
+        default=None,
+        description=(
+            "OpenAI API key. Required for LLM-powered agents. "
+            "Set the OPENAI_API_KEY environment variable to enable agent execution."
+        ),
+    )
     model: str = Field(default="gpt-4-turbo-preview", description="OpenAI model to use")
     max_tokens: int = Field(default=4096, description="Maximum tokens per request")
     temperature: float = Field(default=0.7, description="Model temperature")
     timeout: int = Field(default=60, description="API request timeout in seconds")
+
+    def is_configured(self) -> bool:
+        """Return True if an API key is configured."""
+        return bool(self.api_key)
 
 
 class BudgetSettings(BaseSettings):

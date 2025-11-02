@@ -46,6 +46,14 @@ def get_supabase_client():
         client: Client = create_client(supabase_url, settings.supabase_key)
         logger.info("Supabase client created", url=supabase_url)
         return client
+    except TypeError as te:
+        # Known issue: certain httpx versions pass unsupported 'proxy' argument
+        logger.warning(
+            "Supabase client initialization skipped due to proxy configuration",
+            error=str(te),
+            solution="Upgrade supabase-python or set SUPABASE_USE_REST_API",
+        )
+        return None
     except Exception as e:
         logger.error("Failed to create Supabase client", error=str(e), exc_info=True)
         return None

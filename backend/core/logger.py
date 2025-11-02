@@ -41,19 +41,13 @@ def setup_logging(log_level: str = "INFO", json_logs: bool = True) -> None:
         structlog.stdlib.add_logger_name,
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.StackInfoRenderer(),
+        structlog.processors.format_exc_info,
     ]
 
     if json_logs:
         processors.append(structlog.processors.JSONRenderer())
     else:
-        processors.extend(
-            [
-                structlog.dev.ConsoleRenderer(),
-            ]
-        )
-
-    # Add exception processor last
-    processors.append(structlog.processors.format_exc_info)
+        processors.append(structlog.dev.ConsoleRenderer())
 
     structlog.configure(
         processors=processors,

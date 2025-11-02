@@ -5,8 +5,9 @@
  */
 
 import { useEffect, useState } from 'react'
-import { logsApi, LogEntry } from '../services/api'
+import { logsApi } from '../services/api'
 import { createLogsWebSocket } from '../services/websocket'
+import type { LogEntry } from '../types'
 import LogViewer from '../components/Logs/LogViewer'
 import LogFilters from '../components/Logs/LogFilters'
 import ErrorPanel from '../components/Logs/ErrorPanel'
@@ -48,9 +49,10 @@ function LogsViewer() {
         logsApi.getWarnings(),
       ])
 
-      setLogs(logsData)
-      setErrors(errorsData)
-      setWarnings(warningsData)
+      // Cast API response to our type (API returns level as string, we expect union type)
+      setLogs(logsData as LogEntry[])
+      setErrors(errorsData as LogEntry[])
+      setWarnings(warningsData as LogEntry[])
     } catch (error) {
       console.error('Failed to load logs:', error)
     }

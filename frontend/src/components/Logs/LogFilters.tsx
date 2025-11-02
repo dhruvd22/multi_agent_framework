@@ -2,7 +2,6 @@
  * Log filters component.
  */
 
-import { LogEntry } from '../../types'
 import './LogFilters.css'
 
 interface LogFiltersProps {

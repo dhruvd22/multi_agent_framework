@@ -3,6 +3,7 @@
  */
 
 import axios from 'axios'
+import type { LogEntry, Task, Agent } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -13,19 +14,13 @@ const apiClient = axios.create({
   },
 })
 
-export interface Task {
-  task_id: string
-  status: string
-  description: string
-  plan?: any
-  results?: any
-}
-
 export interface CreateTaskRequest {
   description: string
   requirements?: string[]
   constraints?: Record<string, any>
 }
+
+export { Task, Agent, LogEntry }
 
 export const tasksApi = {
   createTask: async (request: CreateTaskRequest): Promise<Task> => {
@@ -44,14 +39,6 @@ export const tasksApi = {
   },
 }
 
-export interface Agent {
-  agent_id: string
-  agent_type: string
-  status: string
-  capabilities: any
-  current_task_id?: string
-}
-
 export const agentsApi = {
   listAgents: async (): Promise<Agent[]> => {
     const response = await apiClient.get('/api/agents/')
@@ -62,15 +49,6 @@ export const agentsApi = {
     const response = await apiClient.get(`/api/agents/${agentId}`)
     return response.data
   },
-}
-
-export interface LogEntry {
-  timestamp: string
-  level: string
-  message: string
-  agent_id?: string
-  task_id?: string
-  metadata?: Record<string, any>
 }
 
 export const logsApi = {

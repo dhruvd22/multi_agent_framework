@@ -5,8 +5,8 @@ This module provides the Model Context Protocol (MCP) server implementation
 and tool definitions for code writing, testing, script execution, and file management.
 """
 
-from .protocol import MCPServer, get_mcp_server
-from .server import initialize_tools, start_mcp_server
+from .protocol import MCPServer
+from .server import get_mcp_server_instance, initialize_tools, start_mcp_server
 from .tools import (
     BaseTool,
     CodeWriterTool,
@@ -20,7 +20,7 @@ from .tools import (
 
 __all__ = [
     "MCPServer",
-    "get_mcp_server",
+    "get_mcp_server_instance",
     "start_mcp_server",
     "initialize_tools",
     "BaseTool",
@@ -32,4 +32,7 @@ __all__ = [
     "get_tool",
     "register_tool",
 ]
+
+# Alias for convenience
+get_mcp_server = get_mcp_server_instance
 

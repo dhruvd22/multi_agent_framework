@@ -10,7 +10,7 @@ from typing import Any, Dict, List
 
 from structlog import get_logger
 
-from ..core.exceptions import ValidationError
+from ...core.exceptions import ValidationError
 from .base_tool import BaseTool, ToolResult
 
 logger = get_logger(__name__)

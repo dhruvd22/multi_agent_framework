@@ -75,7 +75,7 @@ VITE_WS_URL=ws://localhost:8000
 
 ### Supabase (Optional)
 ```bash
-SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_URL=https://pwwrzmwtgrsfdqykcomh.supabase.co
 SUPABASE_KEY=your_supabase_anon_key
 ```
 
@@ -102,7 +102,7 @@ NEO4J_PASSWORD=your-neo4j-password
 **Required**:
 ```bash
 OPENAI_API_KEY=sk-your-key-here
-DATABASE_URL=postgresql+asyncpg://postgres:password@db.xxx.supabase.co:5432/postgres
+DATABASE_URL=postgresql+asyncpg://postgres:password@db.pwwrzmwtgrsfdqykcomh.supabase.co:5432/postgres
 NEO4J_URI=bolt://your-neo4j-instance.com:7687
 NEO4J_USER=neo4j
 NEO4J_PASSWORD=your-neo4j-password

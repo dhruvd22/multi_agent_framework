@@ -12,6 +12,7 @@ from structlog import get_logger
 from ..config import get_settings
 
 logger = get_logger(__name__)
+DEFAULT_SUPABASE_URL = "https://pwwrzmwtgrsfdqykcomh.supabase.co"
 
 
 def get_supabase_client():
@@ -36,13 +37,14 @@ def get_supabase_client():
         return None
 
     settings = get_settings()
+    supabase_url = settings.supabase_url or DEFAULT_SUPABASE_URL
 
-    if not settings.supabase_url or not settings.supabase_key:
+    if not supabase_url or not settings.supabase_key:
         return None
 
     try:
-        client: Client = create_client(settings.supabase_url, settings.supabase_key)
-        logger.info("Supabase client created", url=settings.supabase_url)
+        client: Client = create_client(supabase_url, settings.supabase_key)
+        logger.info("Supabase client created", url=supabase_url)
         return client
     except Exception as e:
         logger.error("Failed to create Supabase client", error=str(e), exc_info=True)
@@ -65,14 +67,15 @@ def get_supabase_postgres_url() -> Optional[str]:
         from Supabase dashboard (Settings > Database > Connection string).
     """
     settings = get_settings()
+    supabase_url = settings.supabase_url or DEFAULT_SUPABASE_URL
 
-    if not settings.supabase_url or not settings.supabase_key:
+    if not supabase_url or not settings.supabase_key:
         return None
 
     # Extract project reference from Supabase URL
     # Format: https://[PROJECT_REF].supabase.co
     try:
-        url_parts = settings.supabase_url.replace("https://", "").replace("http://", "").split(".")
+        url_parts = supabase_url.replace("https://", "").replace("http://", "").split(".")
         if len(url_parts) >= 2:
             project_ref = url_parts[0]
             # Construct PostgreSQL connection URL
@@ -99,5 +102,5 @@ def is_supabase_configured() -> bool:
         True if both Supabase URL and key are set
     """
     settings = get_settings()
-    return bool(settings.supabase_url and settings.supabase_key)
+    return bool(settings.supabase_key)
 

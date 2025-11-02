@@ -28,11 +28,11 @@ The Multi-Agent Framework supports Supabase for PostgreSQL database storage. Sup
 
 ```bash
 # Supabase Configuration
-SUPABASE_URL=https://your-project-ref.supabase.co
-SUPABASE_KEY=your_supabase_anon_key
+SUPABASE_URL=https://pwwrzmwtgrsfdqykcomh.supabase.co
+SUPABASE_KEY=your_supabase_anon_or_service_role_key
 
 # PostgreSQL Connection (from Supabase dashboard)
-DATABASE_URL=postgresql+asyncpg://postgres:your-password@db.your-project-ref.supabase.co:5432/postgres
+DATABASE_URL=postgresql+asyncpg://postgres:your-password@db.pwwrzmwtgrsfdqykcomh.supabase.co:5432/postgres
 ```
 
 ## Usage
@@ -114,9 +114,9 @@ DATABASE_URL=postgresql+asyncpg://postgres:your-password@db.pwwrzmwtgrsfdqykcomh
 
 ```bash
 # .env file
-SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_URL=https://pwwrzmwtgrsfdqykcomh.supabase.co
 SUPABASE_KEY=your-anon-key
-DATABASE_URL=postgresql+asyncpg://postgres:your-password@db.your-project.supabase.co:5432/postgres
+DATABASE_URL=postgresql+asyncpg://postgres:your-password@db.pwwrzmwtgrsfdqykcomh.supabase.co:5432/postgres
 ```
 
 ## Troubleshooting

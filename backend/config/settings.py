@@ -108,7 +108,10 @@ class Settings(BaseSettings):
     mcp: MCPSettings = Field(default_factory=MCPSettings)
 
     # Supabase (optional)
-    supabase_url: Optional[str] = Field(default=None, description="Supabase URL")
+    supabase_url: Optional[str] = Field(
+        default="https://pwwrzmwtgrsfdqykcomh.supabase.co",
+        description="Supabase project URL",
+    )
     supabase_key: Optional[str] = Field(default=None, description="Supabase API key")
 
 

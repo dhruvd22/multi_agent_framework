@@ -11,8 +11,6 @@ from typing import Dict
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from structlog import get_logger
 
-from ..main import app
-
 router = APIRouter()
 logger = get_logger(__name__)
 

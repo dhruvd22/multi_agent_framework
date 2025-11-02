@@ -42,14 +42,17 @@ COPY backend/requirements.txt ./
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend code
-COPY backend/ ./
+# Copy backend code as a package (preserves relative imports)
+COPY backend/ ./backend/
 
 # Copy built frontend from builder stage
 COPY --from=frontend-builder /app/frontend/dist ./static
 
 # Create workspace directory for MCP tools
 RUN mkdir -p /app/workspace
+
+# Set PYTHONPATH to include /app so backend package can be imported
+ENV PYTHONPATH=/app
 
 # Expose port (Koyeb will set PORT environment variable)
 EXPOSE 8000
@@ -60,5 +63,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 # Run the application
 # Koyeb sets PORT environment variable, default to 8000
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn backend.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 

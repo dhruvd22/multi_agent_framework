@@ -162,7 +162,12 @@ app.include_router(logs.router, prefix="/api/logs", tags=["logs"])
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
 
 # Serve static files (frontend) if they exist
-static_dir = Path(__file__).parent.parent / "static"
+# In Docker: /app/backend/api/main.py -> /app/static
+# Locally: backend/api/main.py -> backend/../static (project root)
+static_dir = Path("/app/static")
+if not static_dir.exists():
+    # Fall back to relative path (for local development)
+    static_dir = Path(__file__).parent.parent.parent.parent / "static"
 if static_dir.exists():
     app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
     
